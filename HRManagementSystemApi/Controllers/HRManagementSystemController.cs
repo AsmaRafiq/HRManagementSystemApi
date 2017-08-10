@@ -1,5 +1,4 @@
-﻿using HRManagementSystemApi.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -13,69 +12,86 @@ namespace HRManagementSystemApi.Controllers
     {
         HRManagementSystemEntities db = new HRManagementSystemEntities();
         [HttpGet]
-        [Route("api/HRManagementSystem/EmployeeDetails")]
-        public bool EmployeeDetails(InformationOfEmployee Information)
+        [Route("api/HRManagementSystem/NewEmployee")]
+        public bool NewEmployee(EmployeeDetail Information)
         {
-
-            var values = db.EmployeeDetails.ToList();
-            if (values != null)
+            //var emp = new EmployeeDetail();
+            if(Information!=null)
             {
-                foreach (var e in values)
-                {
-                    InformationOfEmployee emp = new InformationOfEmployee();
-                    emp.Id = e.Id;
-                    emp.Name = e.Name;
-                    emp.Post = e.Post;
-                    emp.Qualification = e.Qualification;
-                    emp.Skills = e.Skills;
-                    emp.Hiring = e.Hiring;
-                    emp.Description = e.Description;
-                    db.EmployeeDetails.Add(e);
-                    db.SaveChanges();
-                }
+                db.EmployeeDetails.Add(Information);
+                db.SaveChanges();
+
                 return true;
             }
-
-
             else
             {
                 return false;
             }
+            
         }
 
 
         [HttpGet]
         [Route("api/HRManagementSystem/EmployeePerformance")]
-        public bool EmployeePerformance(InformationOfEmployee Information)
+        public bool EmployeePerformance(EmployeeManagement Information)
         {
-            var employee = db.EmployeeManagements.FirstOrDefault(e => e.EmployeeId ==  EmployeeId);
-            if (employee != null)
+            if (Information != null)
             {
-                foreach (var e in employee)
-                {
-                    InformationOfEmployee emp = new InformationOfEmployee();
-                    emp.Id = e.Id;
-                    emp.Attendance = e.Name;
-                    emp.Leave = e.Discription;
-                    emp.ProjectDetails = e.StartDate;
-                    emp.Trainings = e.Trainings;
-                    emp.Apprasel = e.Apprasel;
-                    
-                    EmployeeDetail.Update(emp);
-                }
+                db.EmployeeManagements.Add(Information);
+                db.SaveChanges();
                 return true;
             }
-           
+            else
+            {
+                return false;
+            }
 
-        
         }
 
 
         [HttpGet]
         [Route("api/HRManagementSystem/Payroll")]
-        public float Payroll()
+        public bool Payroll(int employeeId)
         {
-            return 0;
+            var employeeDetails = db.EmployeeDetails.FirstOrDefault(e => e.Id == employeeId);
+
+            int basicsalary = (int)employeeDetails.Salary;
+
+            int ConveyanceAllowance = 0, MedicalAllowance = 0, HouseRentAllowance = 0, NetSalary = 0, TotalAllowances;
+
+            if (basicsalary >= 40000)
+            {
+                ConveyanceAllowance = basicsalary * 20 / 100;
+                MedicalAllowance = basicsalary * 30 / 100;
+                HouseRentAllowance = basicsalary * 40 / 100;
+            }
+            else if (basicsalary >= 35000)
+            {
+                ConveyanceAllowance = basicsalary * 15 / 100;
+                MedicalAllowance = basicsalary * 25 / 100;
+                HouseRentAllowance = basicsalary * 30 / 100;
+            }
+            else if (basicsalary >= 30000)
+            {
+                ConveyanceAllowance = basicsalary * 10 / 100;
+                MedicalAllowance = basicsalary * 20 / 100;
+                HouseRentAllowance = basicsalary * 25 / 100;
+            }
+            else
+            {
+                ConveyanceAllowance = 0;
+                MedicalAllowance = 0;
+                HouseRentAllowance = 0;
+            }
+            TotalAllowances = ConveyanceAllowance + MedicalAllowance + HouseRentAllowance;
+            NetSalary = basicsalary + TotalAllowances;
+            Payroll p = new Payroll();
+            p.EmployeeId = employeeId;
+            p.BasicSalary = basicsalary;
+            p.Allowances = TotalAllowances;
+            db.Payrolls.Add(p);
+            db.SaveChanges();
+            return true;
         }
 
 
@@ -83,6 +99,6 @@ namespace HRManagementSystemApi.Controllers
 
 
 
-        public int? EmployeeId { get; set; }
+     
     }
 }

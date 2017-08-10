@@ -12,13 +12,10 @@ namespace HRManagementSystemApi
     using System;
     using System.Collections.Generic;
     
-    public partial class Payroll
+    public partial class Attendance
     {
         public int Id { get; set; }
         public Nullable<int> EmployeeId { get; set; }
-        public Nullable<double> BasicSalary { get; set; }
-        public Nullable<double> Allowances { get; set; }
-        public Nullable<double> NetSalary { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
     
         public virtual EmployeeDetail EmployeeDetail { get; set; }

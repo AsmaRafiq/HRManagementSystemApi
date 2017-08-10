@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HRManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
+        <EntityType Name="EmployeeDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Salary" Type="float" />
+          <Property Name="Post" Type="nvarchar" MaxLength="50" />
+          <Property Name="Qualification" Type="nvarchar" MaxLength="50" />
+          <Property Name="Skills" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Status" Type="bit" />
+        </EntityType>
+        <EntityType Name="EmployeeManagement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="ProjectDetails" Type="nvarchar" MaxLength="50" />
+          <Property Name="Trainings" Type="nvarchar" MaxLength="50" />
+          <Property Name="Apprasel" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Payroll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmployeeId" Type="int" />
+          <Property Name="BasicSalary" Type="float" />
+          <Property Name="Allowances" Type="float" />
+          <Property Name="NetSalary" Type="float" />
+          <Property Name="Date" Type="date" />
+        </EntityType>
+        <Association Name="FK_Attendance_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeManagement_EmployeeManagement">
+          <End Role="EmployeeManagement" Type="Self.EmployeeManagement" Multiplicity="1" />
+          <End Role="EmployeeManagement1" Type="Self.EmployeeManagement" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeManagement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeManagement1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payroll_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetails" Multiplicity="0..1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRManagementSystemModelStoreContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeManagement" EntityType="Self.EmployeeManagement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payroll" EntityType="Self.Payroll" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Attendance_EmployeeDetails" Association="Self.FK_Attendance_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeManagement_EmployeeManagement" Association="Self.FK_EmployeeManagement_EmployeeManagement">
+            <End Role="EmployeeManagement" EntitySet="EmployeeManagement" />
+            <End Role="EmployeeManagement1" EntitySet="EmployeeManagement" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_EmployeeDetails" Association="Self.FK_Payroll_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="Payroll" EntitySet="Payroll" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK_Attendance_EmployeeDetails" FromRole="Attendance" ToRole="EmployeeDetails" />
+        </EntityType>
+        <EntityType Name="EmployeeDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Post" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Qualification" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Skills" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Attendances" Relationship="Self.FK_Attendance_EmployeeDetails" FromRole="EmployeeDetails" ToRole="Attendance" />
+          <NavigationProperty Name="Payrolls" Relationship="Self.FK_Payroll_EmployeeDetails" FromRole="EmployeeDetails" ToRole="Payroll" />
+          <Property Name="Status" Type="Boolean" />
+          <Property Name="Salary" Type="Double" />
+        </EntityType>
+        <EntityType Name="EmployeeManagement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="ProjectDetails" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Trainings" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Apprasel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EmployeeManagement1" Relationship="Self.FK_EmployeeManagement_EmployeeManagement" FromRole="EmployeeManagement" ToRole="EmployeeManagement1" />
+          <NavigationProperty Name="EmployeeManagement2" Relationship="Self.FK_EmployeeManagement_EmployeeManagement" FromRole="EmployeeManagement1" ToRole="EmployeeManagement" />
+        </EntityType>
+        <EntityType Name="Payroll">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="BasicSalary" Type="Double" />
+          <Property Name="Allowances" Type="Double" />
+          <Property Name="NetSalary" Type="Double" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="EmployeeDetail" Relationship="Self.FK_Payroll_EmployeeDetails" FromRole="Payroll" ToRole="EmployeeDetails" />
+        </EntityType>
+        <Association Name="FK_Attendance_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="0..1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payroll_EmployeeDetails">
+          <End Role="EmployeeDetails" Type="Self.EmployeeDetail" Multiplicity="0..1" />
+          <End Role="Payroll" Type="Self.Payroll" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payroll">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeManagement_EmployeeManagement">
+          <End Role="EmployeeManagement" Type="Self.EmployeeManagement" Multiplicity="1" />
+          <End Role="EmployeeManagement1" Type="Self.EmployeeManagement" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeManagement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmployeeManagement1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRManagementSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attendances" EntityType="Self.Attendance" />
+          <EntitySet Name="EmployeeDetails" EntityType="Self.EmployeeDetail" />
+          <EntitySet Name="EmployeeManagements" EntityType="Self.EmployeeManagement" />
+          <EntitySet Name="Payrolls" EntityType="Self.Payroll" />
+          <AssociationSet Name="FK_Attendance_EmployeeDetails" Association="Self.FK_Attendance_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payroll_EmployeeDetails" Association="Self.FK_Payroll_EmployeeDetails">
+            <End Role="EmployeeDetails" EntitySet="EmployeeDetails" />
+            <End Role="Payroll" EntitySet="Payrolls" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeManagement_EmployeeManagement" Association="Self.FK_EmployeeManagement_EmployeeManagement">
+            <End Role="EmployeeManagement" EntitySet="EmployeeManagements" />
+            <End Role="EmployeeManagement1" EntitySet="EmployeeManagements" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRManagementSystemModelStoreContainer" CdmEntityContainer="HRManagementSystemEntities">
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="HRManagementSystemModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeDetails">
+            <EntityTypeMapping TypeName="HRManagementSystemModel.EmployeeDetail">
+              <MappingFragment StoreEntitySet="EmployeeDetails">
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Post" ColumnName="Post" />
+                <ScalarProperty Name="Qualification" ColumnName="Qualification" />
+                <ScalarProperty Name="Skills" ColumnName="Skills" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeManagements">
+            <EntityTypeMapping TypeName="HRManagementSystemModel.EmployeeManagement">
+              <MappingFragment StoreEntitySet="EmployeeManagement">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ProjectDetails" ColumnName="ProjectDetails" />
+                <ScalarProperty Name="Trainings" ColumnName="Trainings" />
+                <ScalarProperty Name="Apprasel" ColumnName="Apprasel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payrolls">
+            <EntityTypeMapping TypeName="HRManagementSystemModel.Payroll">
+              <MappingFragment StoreEntitySet="Payroll">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="BasicSalary" ColumnName="BasicSalary" />
+                <ScalarProperty Name="Allowances" ColumnName="Allowances" />
+                <ScalarProperty Name="NetSalary" ColumnName="NetSalary" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

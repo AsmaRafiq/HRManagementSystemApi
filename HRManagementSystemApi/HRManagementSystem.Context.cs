@@ -25,6 +25,7 @@ namespace HRManagementSystemApi
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Attendance> Attendances { get; set; }
         public DbSet<EmployeeDetail> EmployeeDetails { get; set; }
         public DbSet<EmployeeManagement> EmployeeManagements { get; set; }
         public DbSet<Payroll> Payrolls { get; set; }

@@ -14,17 +14,22 @@ namespace HRManagementSystemApi
     
     public partial class EmployeeDetail
     {
+        public EmployeeDetail()
+        {
+            this.Attendances = new HashSet<Attendance>();
+            this.Payrolls = new HashSet<Payroll>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string Post { get; set; }
         public string Qualification { get; set; }
         public string Skills { get; set; }
-        public string Hiring { get; set; }
         public string Description { get; set; }
-
-        internal static void Update(Models.InformationOfEmployee emp)
-        {
-            throw new NotImplementedException();
-        }
+        public Nullable<bool> Status { get; set; }
+        public Nullable<double> Salary { get; set; }
+    
+        public virtual ICollection<Attendance> Attendances { get; set; }
+        public virtual ICollection<Payroll> Payrolls { get; set; }
     }
 }

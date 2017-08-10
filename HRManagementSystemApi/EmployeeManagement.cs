@@ -15,11 +15,12 @@ namespace HRManagementSystemApi
     public partial class EmployeeManagement
     {
         public int Id { get; set; }
-        public string Attendance { get; set; }
-        public string Leave { get; set; }
+        public Nullable<int> EmployeeId { get; set; }
         public string ProjectDetails { get; set; }
         public string Trainings { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
         public string Apprasel { get; set; }
+    
+        public virtual EmployeeManagement EmployeeManagement1 { get; set; }
+        public virtual EmployeeManagement EmployeeManagement2 { get; set; }
     }
 }
